@@ -2,6 +2,8 @@
 
 A small Windows tool that checks how much mobile internet is left on a Shatel Mobile SIM every 30 minutes and shows a Windows notification when it drops below 500 MB.
 
+![Windows notification: Shatel internet low, 7412 MB left (below 10000 MB)](docs/notification.png)
+
 Unofficial. Not affiliated with or endorsed by Shatel Mobile. It calls the same endpoint the my.shatelmobile.ir self-care page uses, so it can break whenever that site changes.
 
 ## Requirements
