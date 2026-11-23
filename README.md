@@ -1,5 +1,7 @@
 # shatel-monitor
 
+English | [فارسی](#persian)
+
 A small Windows tool that checks how much mobile internet is left on a Shatel Mobile SIM every 30 minutes and shows a Windows notification when it drops below 500 MB.
 
 ![Windows notification: Shatel internet low, 7412 MB left (below 10000 MB)](docs/notification.png)
@@ -59,3 +61,58 @@ Unregister-ScheduledTask 'Shatel Remaining Check' -Confirm:$false
 ## License
 
 MIT
+
+---
+
+<a id="persian"></a>
+<div dir="rtl">
+
+## راهنمای فارسی
+
+یک ابزار کوچک برای ویندوز که هر ۳۰ دقیقه حجم باقی‌ماندهٔ اینترنت سیم‌کارت شاتل موبایل را بررسی می‌کند و وقتی از ۵۰۰ مگابایت کمتر شد، یک اعلان ویندوز نشان می‌دهد.
+
+این ابزار غیررسمی است و هیچ ارتباطی با شاتل موبایل ندارد. از همان آدرسی استفاده می‌کند که صفحهٔ my.shatelmobile.ir استفاده می‌کند، پس اگر سایت تغییر کند ممکن است از کار بیفتد.
+
+### پیش‌نیازها
+
+- ویندوز ۱۰ یا ۱۱ (‏Windows PowerShell 5.1 و `curl.exe` همراه ویندوز هستند)
+- حساب کاربری در سامانهٔ خودخدمت شاتل موبایل
+
+### راه‌اندازی
+
+۱. این پوشه را دانلود یا clone کنید.
+
+۲. وارد https://my.shatelmobile.ir شوید، DevTools را باز کنید (F12) و از مسیر Application ← Cookies ← `https://my.shatelmobile.ir` مقدار کوکی `session` را کپی کنید و در فایلی به نام `session.txt` در همین پوشه بگذارید.
+
+۳. شمارهٔ خود را بدون صفر اول (مثلاً `9xxxxxxxxx`) در فایل `msisdn.txt` بنویسید.
+
+۴. برای آزمایش، این دستور را اجرا کنید. باید یک اعلان ببینید:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\check.ps1 -ThresholdMB 999999
+```
+
+۵. وظیفهٔ زمان‌بندی‌شده را نصب کنید:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\install.ps1
+```
+
+کوکی `session` مثل رمز عبور است؛ آن را با کسی به اشتراک نگذارید. فایل‌های `session.txt`، `msisdn.txt` و `log.txt` در git نادیده گرفته می‌شوند.
+
+### چه کار می‌کند
+
+- هر ۳۰ دقیقه، و ۲ دقیقه بعد از ورود به ویندوز اجرا می‌شود؛ روی باتری هم کار می‌کند و بعد از Sleep، بررسی جاافتاده را انجام می‌دهد.
+- **🚨 Shatel internet low**: مجموع حجم باقی‌مانده کمتر از حد تعیین‌شده است (پیش‌فرض ۵۰۰ مگابایت).
+- **❌ Shatel check failed**: سرور در دسترس نبود یا نشست منقضی شده است. در حالت دوم، کوکی `session` تازه را در `session.txt` بگذارید.
+- نتیجهٔ هر اجرا در `log.txt` ثبت می‌شود.
+
+اعلان فقط وقتی نشان داده می‌شود که وارد ویندوز شده باشید؛ وقتی کامپیوتر خاموش است چیزی اجرا نمی‌شود.
+
+### حذف
+
+```powershell
+Unregister-ScheduledTask 'Shatel Remaining Check' -Confirm:$false
+```
+
+</div>
